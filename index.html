@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DHT11 Sensor Readings</title>
+  <title>Login Page</title>
 </head>
 <body>
-  <h1>DHT11 Sensor Readings</h1>
-  <div>
-    <h2>Temperature:</h2>
-    <p id="temperature">Loading...</p>
-  </div>
-  <div>
-    <h2>Humidity:</h2>
-    <p id="humidity">Loading...</p>
-  </div>
+  <h2>Login</h2>
+  <form id="loginForm" action="redirect-page.html" method="post">
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+      <input type="submit" value="Login">
+    </div>
+  </form>
 
   <script>
-    // Replace with the endpoint URL where your ESP8266 will send the data
-const endpointUrl = 'https://razvanneculai.github.io';
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
 
-// Function to fetch data from the endpoint
-function fetchData() {
-  fetch(endpointUrl)
-    .then(response => response.json())
-    .then(data => {
-      // Display the received data on your web page
-      const temperature = data.temperature;
-      const humidity = data.humidity;
-      document.getElementById('temperature').textContent = temperature;
-      document.getElementById('humidity').textContent = humidity;
-    })
-    .catch(error => {
-      console.log('Error fetching data:', error);
+      // Perform login validation
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+
+      // Here, you can implement your own logic to validate the username and password
+      // For simplicity, let's assume the login is successful if the username is "admin" and password is "password"
+      if (username === "admin" && password === "password") {
+        // Redirect to another page
+        window.location.href = "redirect-page.html";
+      } else {
+        alert("Invalid username or password. Please try again.");
+      }
     });
-}
-
-// Fetch data initially and every 5 seconds
-fetchData();
-setInterval(fetchData, 5000);
-
   </script>
 </body>
 </html>
