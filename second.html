@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Congratulations!</title>
-</head>
-<body>
-  <h2>Congratulations!</h2>
-  <p>You have successfully logged in.</p>
-</body>
+  <head>
+    <title>Send Text to Telegram Bot</title>
+  </head>
+  <body>
+    <h1>Send Text to Telegram Bot</h1>
+    <form id="myForm">
+      <label for="text">Enter your text:</label>
+      <br />
+      <textarea id="text" rows="4" cols="50"></textarea>
+      <br />
+      <button type="submit">Send</button>
+    </form>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      document.getElementById("myForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Get the text entered by the user
+        var text = document.getElementById("text").value;
+
+        // Send the text to the Telegram bot using an HTTP POST request
+        var botToken = "6162729708:AAGmfL50Z-BS3OsUcPD-lXgVlXr2sK03dok";
+        var chatId = "-925440617";
+        var url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        var data = {
+          chat_id: chatId,
+          text: text,
+        };
+
+        axios
+          .post(url, data)
+          .then(function(response) {
+            console.log("Message sent to Telegram bot:", response.data);
+            // Clear the text field after sending
+            document.getElementById("text").value = "";
+          })
+          .catch(function(error) {
+            console.error("Error sending message to Telegram bot:", error);
+          });
+      });
+    </script>
+  </body>
 </html>
