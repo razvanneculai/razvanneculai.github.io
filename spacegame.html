@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Space Invaders</title>
+  <style>
+    #game-container {
+      width: 500px;
+      height: 500px;
+      position: relative;
+      border: 1px solid black;
+    }
+    .player {
+      width: 50px;
+      height: 50px;
+      background-color: blue;
+      position: absolute;
+      bottom: 10px;
+    }
+    .enemy {
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Space Invaders</h1>
+  <div id="game-container">
+    <div id="player" class="player"></div>
+    <div id="enemy" class="enemy"></div>
+  </div>
+
+  <script>
+    // Player movement
+    window.addEventListener('keydown', function(event) {
+      if (event.key === 'ArrowLeft') {
+        movePlayer(-10); // Move left
+      } else if (event.key === 'ArrowRight') {
+        movePlayer(10); // Move right
+      }
+    });
+
+    function movePlayer(deltaX) {
+      var player = document.getElementById('player');
+      var currentLeft = parseInt(player.style.left) || 0;
+      var newLeft = currentLeft + deltaX;
+
+      // Restrict player movement within game container
+      var gameContainerWidth = document.getElementById('game-container').offsetWidth;
+      var playerWidth = player.offsetWidth;
+      var maxLeft = gameContainerWidth - playerWidth;
+      if (newLeft < 0) {
+        newLeft = 0;
+      } else if (newLeft > maxLeft) {
+        newLeft = maxLeft;
+      }
+
+      player.style.left = newLeft + 'px';
+    }
+  </script>
+</body>
+</html>
