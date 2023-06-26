@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Temperature and Humidity Display</title>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Temperature and Humidity</h1>
+  <div id="dataContainer"></div>
+
+  <script>
+    // Fetch the data from your endpoint
+    fetch('https://your-endpoint-url')
+      .then(response => response.json())
+      .then(data => {
+        // Update the HTML with the received data
+        const temperature = data.temperature.toFixed(2);
+        const humidity = data.humidity.toFixed(2);
+
+        document.getElementById('dataContainer').innerHTML = `
+          <p>Temperature: ${temperature}°C</p>
+          <p>Humidity: ${humidity}%</p>
+        `;
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        document.getElementById('dataContainer').innerHTML = 'Error retrieving data.';
+      });
+  </script>
+</body>
+</html>
