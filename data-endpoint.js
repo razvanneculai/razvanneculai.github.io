@@ -1,41 +1,32 @@
-// Import required libraries
 const http = require('http');
 
-// Create an HTTP server
 const server = http.createServer((req, res) => {
-  if (req.method === 'POST') {
-    // Handle POST requests
-    let body = '';
+  if (req.method === 'POST' && req.url === '/data') {
+    let data = '';
 
-    req.on('data', (chunk) => {
-      body += chunk;
+    req.on('data', chunk => {
+      data += chunk;
     });
 
     req.on('end', () => {
-      // Process the received data
-      const data = JSON.parse(body);
-      console.log('Received data:', data);
+      const { temperature, humidity } = JSON.parse(data);
+      console.log('Received temperature:', temperature);
+      console.log('Received humidity:', humidity);
 
-      // Update your website with the received data
-      // ...
+      // Perform any additional processing or data storage here
 
-      // Send a response back to the ESP8266
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
-      res.end('Data received successfully');
+      res.end('Data received');
     });
   } else {
-    // Handle other requests
     res.statusCode = 404;
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Invalid endpoint');
+    res.end('Endpoint not found');
   }
 });
 
-// Set the port number for the server to listen on
-const port = process.env.PORT || 3000;
-
-// Start the server
+const port = 3000;
 server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
